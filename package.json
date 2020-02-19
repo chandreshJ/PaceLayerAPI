@@ -1,0 +1,21 @@
+{
+  "name": "mypaceapp",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "publishConfig": {
+    "registry": "https://github.com/chandreshJ/WorkPrj.git"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "npm-git-install": "^0.3.0",
+    "pug": "^2.0.4",
+    "tedious": "^8.0.1"
+  }
+}
