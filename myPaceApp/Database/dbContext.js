@@ -50,7 +50,7 @@ function queryGetExecute(qry, params, isMultiSet, callback) {
     var dataset = [];
     var resultset = 0;
 
-    console.log('hi')
+    console.log('log: queryGetExecute')
     request = new Request(qry, function (err, rowCount) {
         utility.sendDbResponse(err, rowCount, dataset, callback);
 
@@ -73,7 +73,7 @@ function queryGetExecute(qry, params, isMultiSet, callback) {
         }
     });
 
-    connection.execSql(request);
+    connection.callProcedure(request);
 }
 
 function queryExecute(qry, params, isMultiSet, callback) {

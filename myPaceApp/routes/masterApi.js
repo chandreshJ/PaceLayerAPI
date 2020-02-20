@@ -13,10 +13,21 @@ router.get('/portfolios/', function(req, res, next) {
  });
 /* GET applications listing. */
 router.get('/applications/:ID', function(req, res, next) {
-  dbContext.getQuery("getapplications", function (error, data) {
+ console.log('app get id')
+ 
+
+
+ 
+  if (req.params.ID) {
+    var parameters = [];
+
+    parameters.push({ name: 'PortfolioId', type: TYPES.Int, val: req.params.ID });
+    
+    dbContext.getQuery("getapplications",parameters,true, function (error, data) {
+      console.log(data);
    return res.json(response(data, error));
  });
- });
+}});
 /* GET Process listing. */
 router.get('/BProcess/', function(req, res, next) {
   dbContext.get("getBProcess", function (error, data) {
