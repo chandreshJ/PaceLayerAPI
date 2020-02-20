@@ -13,11 +13,6 @@ router.get('/portfolios/', function(req, res, next) {
  });
 /* GET applications listing. */
 router.get('/applications/:ID', function(req, res, next) {
- console.log('app get id')
- 
-
-
- 
   if (req.params.ID) {
     var parameters = [];
 
