@@ -12,7 +12,7 @@ var mastersRouter = require('./routes/masterApi')
 var cors=require('cors')
 var app=express();
 app.options('*',cors())
-app.use(cors())
+app.use(cors())//From Prinsi
 
 
 // view engine setup
