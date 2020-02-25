@@ -4,7 +4,26 @@ const dbContext = require('../Database/dbContext');
 var response = require('../shared/response');
 //var response = require('../../shared/response');
 var TYPES = require('tedious').TYPES;
- 
+
+
+// router.get('/AppLayer/', function(req, res, next) {
+//   var arr=[{  
+//     "id": 4, 
+//     "cars":[ "Ford", "BMW", "Fiat" ]
+//  }];
+//   dbContext.get("getApplLayerState", function (error, data) {    
+//    arr.push( res.json(response(data, error)));
+//  });
+//  return res.json(arr);
+//  });
+
+
+
+
+
+
+
+
 /* POST portfolios listing. */
 router.post('/AddPort/', function(req, res) {
   console.log('post v1');
@@ -39,6 +58,7 @@ router.get('/portfolios/', function(req, res, next) {
  /* GET ApplLayerState listing. */
  router.get('/ApplLayerState/', function(req, res, next) {
    dbContext.get("getApplLayerState", function (error, data) {
+     
     return res.json(response(data, error));
   });
   });
@@ -77,5 +97,8 @@ router.get('/BProcess/', function(req, res, next) {
     return res.json(response(data, error));
   });
   });
-   
+
+  
+
+
 module.exports = router;
