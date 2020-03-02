@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Check home page' });
+  res.render('index', { title: 'Pace layer API' });
 });
 
 //  var Request = require('tedious').Request;

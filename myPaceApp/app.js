@@ -20,6 +20,10 @@ app.use(cors())//From Prinsi
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.get('/BProcess', function(req, res){
+  console.log('bp check')
+  res.render('masterApi\BProcess', { title: 'about' });
+});
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
