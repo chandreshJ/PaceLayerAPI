@@ -1,6 +1,6 @@
 var Request = require('tedious').Request;
 var connection = require('../Database/connect');
-
+var TYPES = require('tedious').TYPES;
 var utility = require('../Database/utility/utility');
 
 function spGetExecute(qry, callback) {
@@ -24,27 +24,25 @@ function spGetExecute(qry, callback) {
 
     connection.callProcedure(request);
 }
-
 function spPostExecute(qry, params, callback) {
+    console.log("cnt params "+params.length);
     var newdata = [];
-
-    request = new Request(qry, function (err, rowCount) {
-        utility.sendDbResponse(err, rowCount, newdata, callback);
-    });
-
-    params.forEach(param => {
-
-        request.addParameter(param.name, param.type, param.val);
-
-    });
-
-    request.on('row', function (columns) {
-        utility.buildRow(columns, newdata);
-    });
-
-    connection.callProcedure(request);
-}
-
+      request = new Request(qry, function (err, rowCount) {
+          utility.sendDbResponse(err, rowCount, newdata, callback);
+      });
+      request.addParameter('mode',TYPES.VarChar, 'ADD');
+      params.forEach(param => {
+  //        console.log(param.val);
+          request.addParameter(param.name, param.type, param.val);
+      });
+  console.log('sp Post Execute');
+      
+      request.on('row', function (columns) {
+          utility.buildRow(columns, newdata);
+      });
+      connection.callProcedure(request);
+  }
+  
 function queryGetExecute(qry, params, isMultiSet, callback) {
     var data = [];
     var dataset = [];

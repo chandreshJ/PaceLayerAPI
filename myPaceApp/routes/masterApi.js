@@ -5,35 +5,35 @@ var response = require('../shared/response');
 //var response = require('../../shared/response');
 var TYPES = require('tedious').TYPES;
 
+var bodyParser = require('body-parser')
 
-// router.get('/AppLayer/', function(req, res, next) {
-//   var arr=[{  
-//     "id": 4, 
-//     "cars":[ "Ford", "BMW", "Fiat" ]
-//  }];
-//   dbContext.get("getApplLayerState", function (error, data) {    
-//    arr.push( res.json(response(data, error)));
-//  });
-//  return res.json(arr);
-//  });
+var customParser = bodyParser.json({type: function(req) {
+  req.headers['content-type'] === "text/html"
+}})
 
-
-
-
-
-
-
-
-/* POST portfolios listing. */
-router.post('/AddPort/', function(req, res) {
-  console.log('post v1');
-    
-  var obj=new _appBrpocess(req.body);
-  console.log(obj);
-    // dbContext.get("getportfolio", function (error, data) {
-    //  return res.json(response(data, error));  });
+router.post('/AddPort', customParser, function(req, res){
+	var newTask = {
+		//idTasks : shortid.generate(),
+		Name : 'Content-type: ' + req.get('Content-type'),
+		Description : 'JSON body: ' + JSON.stringify(req.body),
+		CreatedDateTime : new Date()
+	}
+  var parameters = [];
+  for (var key in req.body) {
    
- });
+  parameters.push({ name: key, type: TYPES.Int, val: req.body[key] }); 
+  }
+	//queryHandler.queryRecordsWithParam('insert into Tasks set ?', newTask, function(err, rows){
+    dbContext.post("CRUD_AppSupportOption",parameters, function (error, data) {
+
+		if(error) {
+			console.log('info: ', '-------------------- ERROR: ' + error);
+		return	res.sendStatus(500).json(error);
+		}
+return		res.sendStatus(200);
+	});
+});
+
  var _appBrpocess = {
   portfolioID : 0,
   applicationID : 0,
