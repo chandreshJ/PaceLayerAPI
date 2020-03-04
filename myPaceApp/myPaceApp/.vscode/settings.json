@@ -1,11 +1,4 @@
 {
-<<<<<<< HEAD
-    "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}"
-    ],
-=======
->>>>>>> check 1
     "appService.defaultWebAppToDeploy": "/subscriptions/f3871fe3-a5a4-4f79-9bb1-f4b12bfa1efe/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/PaceLayerAPI",
     "appService.deploySubpath": ""
 }
