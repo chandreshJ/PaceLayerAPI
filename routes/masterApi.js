@@ -9,12 +9,12 @@ var customParser = bodyParser.json({type: function(req) {
   req.headers['content-type'] === "text/html"
 }})
 router.post('/AddPort', customParser, function(req, res){
-	var newTask = {
-		//idTasks : shortid.generate(),
-		Name : 'Content-type: ' + req.get('Content-type'),
-		Description : 'JSON body: ' + JSON.stringify(req.body),
-		CreatedDateTime : new Date()
-	}
+	// var newTask = {
+	// 	//idTasks : shortid.generate(),
+	// 	Name : 'Content-type: ' + req.get('Content-type'),
+	// 	Description : 'JSON body: ' + JSON.stringify(req.body),
+	// 	CreatedDateTime : new Date()
+	// }
   var parameters = [];
   for (var key in req.body) {
       parameters.push({ name: key, type: TYPES.Int, val: req.body[key] });
@@ -67,9 +67,17 @@ router.get('/portfolios/', function(req, res, next) {
  /* GET ApplLayerState listing. */
  router.get('/ApplLayerState/', function(req, res, next) {
    dbContext.get("getApplLayerState", function (error, data) {
-
-    return res.json(response(data, error));
-  });
+    if(error)
+    return res.status(400).json({
+      status: 'error',
+      error: error.message,
+    });
+    else
+    return	 res.status(200).json({
+      status: 'succes',
+      data: (response(data, error))
+    });
+  }); 
   });
   /* GET applications listing. */
   router.get('/applications/:ID', function(req, res, next) {
@@ -92,8 +100,17 @@ router.get('/portfolios/', function(req, res, next) {
 
       dbContext.getQuery("getApplLayerState",parameters,true, function (error, data) {
         console.log(data);
-     return res.json(response(data, error));
-   });
+        if(error)
+        return res.status(400).json({
+          status: 'error',
+          error: error.message,
+        });
+        else
+        return	 res.status(200).json({
+          status: 'succes',
+          data: (response(data, error))
+        });
+      });
   }});
 /* GET Process listing. */
 router.get('/BProcess/', function(req, res, next) {
@@ -103,7 +120,16 @@ router.get('/BProcess/', function(req, res, next) {
  });
  router.get('/GetSupports/', function(req, res, next) {
    dbContext.get("GetSupportOptions", function (error, data) {
-    return res.json(response(data, error));
+    if(error)
+    return res.status(400).json({
+      status: 'error',
+      error: error.message,
+    });
+    else
+    return	 res.status(200).json({
+      status: 'succes',
+      data: (response(data, error))
+    });
   });
   });
 
