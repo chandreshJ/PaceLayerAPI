@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/f3871fe3-a5a4-4f79-9bb1-f4b12bfa1efe/resourceGroups/PaceLayerRG/providers/Microsoft.Web/sites/PaceLayerAPI",
+    "appService.deploySubpath": ""
+}

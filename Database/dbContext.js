@@ -95,8 +95,43 @@ function queryExecute(qry, params, isMultiSet, callback) {
     connection.execSql(request);
 }
 
+ 
+function spGetTPExecute(qry, params, isMultiSet, callback) {
+    var data = [];
+    var Records = [];
+    var dataset = [];
+    var resultset = 0;
+
+    console.log('Begin: spGetTPExecute')
+    request = new Request(qry, function (err, rowCount) {
+        utility.sendDbResponse(err, rowCount, dataset, callback);
+    });
+
+   //  params.forEach(param => {
+   //      request.addParameter(param.name, param.type, param.val);
+   //  });
+
+    request.on('row', function (columns) {
+        utility.buildRow(columns, data);
+    });
+    
+//console.log(Records);
+    request.on('doneInProc', function (rowCount, more, rows) {
+        if (isMultiSet == false) {
+            dataset = data;
+        } else {
+            dataset.push(data);
+            data = [];
+        }
+    });
+//return data;
+console.log('end: spGetTPExecute')
+
+     connection.callProcedure(request);
+}
 module.exports = {
     get: spGetExecute,
     post: spPostExecute,
-    getQuery: queryGetExecute
+    getQuery: queryGetExecute,
+    getTimePlot:spGetTPExecute
 };

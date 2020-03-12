@@ -202,4 +202,36 @@ router.get('/getApplBProcess/:Mode/:ID', function(req, res, next) {
 }});
 
 
+
+/* GET ApplLayer State listing. */
+router.get('/getTimePlot/:Mode/:ID', function(req, res, next) {
+  console.log(req.params.Mode) ;
+    if (req.params.Mode) {
+    var parameters = [];
+
+    parameters.push({ name: 'mode', type: TYPES.VarChar, val: req.params.Mode });
+    parameters.push({ name: 'PID', type: TYPES.Int, val: req.params.ID });
+
+    dbContext.getTimePlot("getChartData",parameters,true, function (error, data) {
+      //console.log(data);
+      if(error)
+      {
+        //console.log('err:'+error.message);
+      
+          return res.status(424).json({
+            status: 'error',
+            error: error.message,
+          });}
+      else{
+            return res.json(response(data, error)); 
+      }
+  //
+      // return	 res.status(200).json({
+      //   status: 'succes',
+      //   data: (response(data, error))
+      // });
+    });
+}});
+
+
 module.exports = router;
