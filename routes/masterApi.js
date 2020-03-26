@@ -8,16 +8,15 @@ var bodyParser = require('body-parser')
 var customParser = bodyParser.json({type: function(req) {
   //req.headers['content-type'] === "text/html"
 }})
+//------------ADD------------------------------
 router.post('/AddPort', customParser, function(req, res){ 
-  var parameters = [];
-  for (var key in req.body) {
+  var parameters = []; 
+    parameters.push({ name:'mode', type: TYPES.VarChar, val:  'ADD' });
+    for (var key in req.body) {
     console.log('key'+key);
     parameters.push({ name: key, type: TYPES.Int, val: req.body[key] });
       console.log(req.body[key]);
-  }
-	//queryHandler.queryRecordsWithParam('insert into Tasks set ?', newTask, function(err, rows){
-    //console.log('parameters '+parameters.keys.length);
-    //if(parameters.length>2){
+  } 
     dbContext.post("CRUD_AppSupportOption",parameters, function (error, data) {
 		if(error) {
       console.log('info: ', '-------------------- ERROR: ' + error);
@@ -31,35 +30,62 @@ router.post('/AddPort', customParser, function(req, res){
     return	 res.status(200).json({
       status: 'succes',
       data: 'Record added successfully.',
-    });
-      // console.log('info: ', '-------------------- ERROR: ' + error);
-      // else
-      // console.log('DOne');
-      // return res;
-    //  return res.status(424).json({       
-    //     status: 'error',
-    //     error: error.message,
-    //   });
-    // }
-    // else
-    // return	 res.status(200).json({
-    //   status: 'succes',
-    //   data: 'Record added successfully.',
-    // });
+    }); 
+  }); 
+});
+//------------EDIT------------------------------
+router.post('/EditPort', customParser, function(req, res){ 
+  var parameters = [];
+  parameters.push({ name:'mode', type: TYPES.VarChar, val:  'PUT' });
+  for (var key in req.body) {
+    console.log('key'+key);
+    parameters.push({ name: key, type: TYPES.Int, val: req.body[key] });
+      console.log(req.body[key]);
+  } 
+    dbContext.post("CRUD_AppSupportOption",parameters, function (error, data) {
+		if(error) {
+      console.log('info: ', '-------------------- ERROR: ' + error);
+      return res.status(424).json({       
+        status: 'error',
+        error: error.message,
+      });
+    }
+    else
+    console.log('info: ', '-------------------- saved. '+data );
+    return	 res.status(200).json({
+      status: 'succes',
+      data: 'Record updated successfully.',
+    }); 
   });
 //}//else res.sendStatus(300).json('No param');
 });
+//------------DEL------------------------------
 
-//  var _appBrpocess = {
-//   portfolioID : 0,
-//   applicationID : 0,
-//   BprocessID :0,
-//   SupportOptionID : 0,
-//   };
-// function AppBrpocess () {/*from  ww  w  .j a v  a 2  s. co  m*/
-
-// }
-/* GET portfolios listing. */
+router.post('/DelPort', customParser, function(req, res){ 
+  var parameters = [];
+    parameters.push({ name:'mode', type: TYPES.VarChar, val:  'DEL' });
+    for (var key in req.body) {
+    console.log('key'+key);
+    parameters.push({ name: key, type: TYPES.Int, val: req.body[key] });
+      console.log(req.body[key]);
+  } 
+   dbContext.post("CRUD_AppSupportOption",parameters, function (error, data) {
+		if(error) {
+      console.log('info: ', '-------------------- ERROR: ' + error);
+      return res.status(424).json({       
+        status: 'error',
+        error: error.message,
+      });
+    }
+    else
+    console.log('info: ', '-------------------- saved. '+data );
+    return	 res.status(200).json({
+      status: 'succes',
+      data: 'Record deleted successfully.',
+    });
+   });
+});
+ /* GET portfolios listing. */
 router.get('/portfolios/', function(req, res, next) {
   dbContext.get("getportfolio", function (error, data) {
     //console.log(error);
@@ -134,23 +160,32 @@ router.get('/portfolios/', function(req, res, next) {
         // });
       });
   }});
+  /* GET Process listing. */
+  router.get('/BProcess/', function(req, res, next) {
+    dbContext.get("getBProcess", function (error, data) {
+      if( error)
+     {
+    //console.log('err:'+error);
+    return res.status(424).json({
+        status: 'error',
+        error: error.message,
+      });
+       }  else
+      return res.json(response(data, error));
+      //// return	 res.status(200).json({
+      //   status: 'succes',
+      //   data: (response(data, error))
+      // });
+   });
+   });
+
+   
 /* GET Process listing. */
-router.get('/BProcess/', function(req, res, next) {
-  dbContext.get("getBProcess", function (error, data) {
-    if( error)
-   {
-  //console.log('err:'+error);
-  return res.status(424).json({
-      status: 'error',
-      error: error.message,
-    });
-     }  else
-    return res.json(response(data, error));
-    //// return	 res.status(200).json({
-    //   status: 'succes',
-    //   data: (response(data, error))
-    // });
- });
+router.get('/TestData1/', function(req, res, next) {
+  var data =[  [65, 59, 80, 81, 56, 55, 40],
+   [38, 48, 40,39, 86, 37, 90]];
+     return res.send(response(data));
+    
  });
  
  router.get('/GetSupports/', function(req, res, next) {
@@ -178,6 +213,8 @@ router.get('/getApplBProcess/:Mode/:ID', function(req, res, next) {
     if (req.params.Mode) {
     var parameters = [];
 
+
+    
     parameters.push({ name: 'mode', type: TYPES.VarChar, val: req.params.Mode });
     parameters.push({ name: 'PID', type: TYPES.Int, val: req.params.ID });
 
@@ -223,7 +260,8 @@ router.get('/getTimePlot/:Mode/:ID', function(req, res, next) {
             error: error.message,
           });}
       else{
-            return res.json(response(data, error)); 
+        //console.log(data);
+            return res.json(data[0]); 
       }
   //
       // return	 res.status(200).json({

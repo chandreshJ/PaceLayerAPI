@@ -31,7 +31,7 @@ function spPostExecute(qry, params, callback) {
       request = new Request(qry, function (err, rowCount) {
           utility.sendDbResponse(err, rowCount, newdata, callback);
       });
-      request.addParameter('mode',TYPES.VarChar, 'ADD');
+      //request.addParameter('mode',TYPES.VarChar, 'ADD');
       params.forEach(param => {
   //        console.log(param.val);
           request.addParameter(param.name, param.type, param.val);
